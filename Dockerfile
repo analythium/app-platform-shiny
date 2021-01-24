@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # we need remotes and renv
 RUN install2.r -e remotes renv
 
+#ENV RENV_VERSION 0.12.5-2
+#RUN R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
+#RUN R -e "remotes::install_github('rstudio/renv@${RENV_VERSION}')"
+
 # create non root user
 RUN addgroup --system app \
     && adduser --system --ingroup app app
@@ -25,7 +29,7 @@ RUN addgroup --system app \
 WORKDIR /home/app
 
 COPY ./renv.lock .
-RUN Rscript -e "renv::restore(lockfile = '/home/app/renv.lock', repos = c(CRAN = 'https://cloud.r-project.org'), library = '/usr/local/lib/R/site-library', prompt = FALSE)"
+RUN Rscript -e "options(renv.consent = TRUE);renv::restore(lockfile = '/home/app/renv.lock', repos = c(CRAN = 'https://cloud.r-project.org'), library = '/usr/local/lib/R/site-library', prompt = FALSE)"
 RUN rm -f renv.lock
 
 # copy everything inside the app folder
@@ -38,10 +42,10 @@ RUN chown app:app -R /home/app
 USER app
 
 # EXPOSE can be used for local testing, not supported in Heroku's container runtime
-EXPOSE 80
+EXPOSE 8080
 
 # web process/code should get the $PORT environment variable
-ENV PORT=80
+ENV PORT=8080
 
 # command we want to run
 CMD ["R", "-e", "shiny::runApp('/home/app', host = '0.0.0.0', port=as.numeric(Sys.getenv('PORT')))"]
