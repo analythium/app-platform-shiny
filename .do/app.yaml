@@ -1,0 +1,8 @@
+name: app-platform-shiny
+services:
+- dockerfile_path: Dockerfile
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: analythium/app-platform-shiny
+  name: app-platform-shiny
