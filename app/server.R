@@ -22,10 +22,10 @@ server <- function(input, output) {
     })
 
     ## prevent timeout
-    autoInvalidate <- reactiveTimer(intervalMs = 50*1000)
-    observe({
-        autoInvalidate()
-        cat(".")
-    })
+#    autoInvalidate <- reactiveTimer(intervalMs = 50*1000)
+#    observe({
+#        autoInvalidate()
+#        cat(".")
+#    })
 
 }
