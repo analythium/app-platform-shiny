@@ -31,4 +31,4 @@ services:
   name: app-platform-shiny
 ```
 
-Otherwise, the app structure follows the Heroku setup. In fact, the same Dockerfile can be deployed to both.
+Otherwise, the app structure follows the Heroku setup. In fact, the same Dockerfile can be deployed to both. The trick to prevent timeout is not necessary on DO (it is paid plan).
